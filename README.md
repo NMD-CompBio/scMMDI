@@ -1,0 +1,35 @@
+# scMMDI_py
+scMMDI: A deep learning framework for single cell multimode data mosaic integration
+This is the Python implementation of the scMMDI algorithm. Note that this implementation supports GPU acceleration.
+
+## 1. Installation
+You can use the following command to install scMMDI:
+```
+pip install scMMDI
+```
+
+## 2. Usage
+scMMDI accepts a muon object as input and populates the obsm and uns fields with embeddings and dictionaries, respectively.
+The pre-processed PBMC dataset is available for download here. It is recommended that a GPU be used to run the model.
+To initialize and run the scMMDI model, the following code should be used:
+
+```
+from scMMDI.model import scMMDI
+import mudata as md
+import scanpy as sc
+
+# Load data into a Muon object.
+mdata = md.read_h5mu("my_data.h5mu")
+
+# Initialize and train the model.
+model = scMMDI(latent_dim=30)
+model.fit(mdata)
+
+# Visualize the embedding with UMAP.
+sc.pp.neighbors(mdata, use_rep="scMMDI_z")
+sc.tl.umap(mdata)
+sc.pl.umap(mdata)
+```
+
+'scMMDI' class also has other methods, you can use the 'help' or '?' command for more details explanations of the methods.
+
